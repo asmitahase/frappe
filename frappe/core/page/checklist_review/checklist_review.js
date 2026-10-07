@@ -119,7 +119,7 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 		},
 		{
 			n: 6,
-			text: "Locked rows show their value instead of repeating 'Needs: Create Employee'. The reason is in the lock's tooltip (frappe.ui.tooltip instead of title).",
+			text: "Locked rows show their default (e.g. India 2026) instead of repeating 'Needs: Create Employee'. They sit right below Create Employee, so what they're waiting on is already obvious. The lock's tooltip still has the reason (frappe.ui.tooltip instead of title).",
 			target: ({ row }) => {
 				const r = row(3);
 				return r.hasAttribute("data-locked") ? r.querySelector(".es-checklist__marker") : null;
