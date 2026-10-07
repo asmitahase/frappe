@@ -99,7 +99,7 @@
 	font-weight: 700;
 	line-height: 1;
 	box-shadow: 0 0 0 2px var(--surface-base);
-	transform: translate(-50%, -50%);
+	transform: translate(-85%, -85%);
 	pointer-events: auto;
 	cursor: pointer;
 	outline: none;
