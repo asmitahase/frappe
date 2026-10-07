@@ -127,7 +127,7 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 		},
 		{
 			n: 7,
-			text: "Skip moved into ⋯, with Undo skip. No confirm needed since it's reversible now.",
+			text: "Skip moved into ⋯, with Undo skip. Rows look cleaner, and the extra click adds a little friction, so skipping isn't accidental.",
 			target: ({ row, revised }) => {
 				const r = row(1);
 				if (revised) return r.querySelector(".es-checklist__menu");
