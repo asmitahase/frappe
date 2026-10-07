@@ -114,7 +114,7 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 		},
 		{
 			n: 5,
-			text: "The date popover had double padding, plus a label repeating what you just clicked. Dropped both.",
+			text: "The date popover had double padding (popover + editor). Kept the popover's only.",
 			target: ({ row }) => row(1).querySelector(".es-checklist__due button"),
 		},
 		{

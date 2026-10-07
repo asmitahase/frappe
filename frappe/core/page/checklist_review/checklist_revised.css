@@ -221,14 +221,10 @@
     color: var(--ink-gray-3);
 }
 
-/* ---- pin 5: the popover holds the field and nothing else ---- */
+/* ---- pin 5: one layer of padding, from the popover ---- */
 .es-checklist--revised .es-checklist__field .frappe-control,
 .es-checklist--revised .es-checklist__field .form-group {
     margin-bottom: 0;
-}
-
-.es-checklist--revised .es-checklist__field .control-label {
-    display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

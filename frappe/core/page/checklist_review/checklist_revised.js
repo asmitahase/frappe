@@ -227,7 +227,7 @@ frappe.ui.ChecklistRevised = class ChecklistRevised extends frappe.ui.Checklist 
 		return owner;
 	}
 
-	// Pin 5: the popover holds the field alone, no label and no second layer of padding.
+	// Pin 5: the popover's padding only, no second layer from the editor.
 	attach_editor(trigger, item, editor) {
 		const popover = new frappe.ui.Popover({
 			trigger,
@@ -255,7 +255,6 @@ frappe.ui.ChecklistRevised = class ChecklistRevised extends frappe.ui.Checklist 
 					},
 					render_input: true,
 				});
-				control.$input?.attr("aria-label", editor.label);
 				control.set_value(editor.value || "");
 				return body;
 			},
