@@ -169,6 +169,18 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 		},
 	];
 
+	// Pins on Revised's own toggles: no twin on Current.
+	const TOGGLE_PINS = {
+		style: {
+			n: 12,
+			text: "Subtle buttons looked washed out on the gray card. An outline card gives them contrast, and it's one border instead of outlining every button. Gray is still here to compare.",
+		},
+		row_click: {
+			n: 13,
+			text: "'Assign Holiday List', an Assign button and the assign icon say assign three times. Every action already opens a dialog or form, so the whole row can be the click target, with a chevron. Curious what you think of this one.",
+		},
+	};
+
 	const pins_by_n = new Map(); // n -> Set of pin buttons (both cards, and the popover pin)
 
 	function make_pin(def) {
@@ -279,7 +291,7 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 	new MutationObserver(sync_popover_pin).observe(document.body, { childList: true });
 
 	// ---- page ----
-	const page_state = { narrow: false, comments: true, outline: false, row_click: false };
+	const page_state = { narrow: false, comments: true, outline: true, row_click: false };
 
 	$(page.main).html(`
 		<div class="checklist-review">
@@ -289,7 +301,7 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 				</label>
 				<label class="checklist-review__toggle">
 					<input type="checkbox" data-toggle="comments" checked>
-					<span>${__("{0} comments", [PINS.length])}</span>
+					<span>${__("{0} comments", [PINS.length + Object.keys(TOGGLE_PINS).length])}</span>
 				</label>
 				<span class="checklist-review__reset"></span>
 			</div>
@@ -349,7 +361,7 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 				{ label: __("Gray"), value: "gray" },
 				{ label: __("Outline"), value: "outline" },
 			],
-			value: "gray",
+			value: "outline",
 			on_change: (value) => {
 				page_state.outline = value === "outline";
 				revised.set_options({ outline: page_state.outline });
@@ -357,11 +369,23 @@ frappe.pages["checklist-review"].on_page_load = function (wrapper) {
 		}).$el
 	);
 
+	const toggle_pins = Object.entries(TOGGLE_PINS).map(([key, def]) => {
+		const pin = make_pin(def);
+		pin.classList.add("checklist-review__pin--inline");
+		pin.hidden = !page_state.comments;
+		const control = key === "style"
+			? root.find(".checklist-review__style")[0]
+			: root.find("[data-toggle=row_click]").closest("label")[0];
+		control.before(pin);
+		return pin;
+	});
+
 	root.on("change", "[data-toggle]", (e) => {
 		const name = e.target.getAttribute("data-toggle");
 		page_state[name] = e.target.checked;
 		if (name === "narrow") root.attr("data-narrow", e.target.checked ? "" : null);
 		if (name === "row_click") revised.set_options({ row_click: e.target.checked });
+		toggle_pins.forEach((pin) => (pin.hidden = !page_state.comments));
 		Object.values(layers).forEach((layer) => layer.queue());
 		sync_popover_pin();
 	});
