@@ -2,6 +2,7 @@
 	--stage-w: 760px;
 	--col-min: 600px;
 	padding-block: var(--padding-lg, 16px);
+	padding-inline: calc(var(--spacing) * 6);
 }
 
 .checklist-review[data-narrow] {
