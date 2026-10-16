@@ -1,0 +1,235 @@
+/* Revised checklist. Every rule is scoped under .es-checklist--revised, so none of it reaches
+ * frappe.ui.Checklist's own card. The date popover is appended to <body>; the component puts the
+ * same root class on its panel so those rules still apply. Pin numbers match the review page. */
+
+/* ---- card: gray by default, or surface-base with an outline ---- */
+.es-checklist--revised.es-checklist {
+    border: 1px solid transparent;
+}
+
+.es-checklist--revised.es-checklist[data-outline] {
+    background-color: var(--surface-base);
+    border-color: var(--outline-gray-2);
+}
+
+/* ---- pin 1: the count sits next to the chevron ---- */
+.es-checklist--revised .es-checklist__head {
+    align-items: center;
+}
+
+.es-checklist--revised .es-checklist__heading {
+    display: contents;
+}
+
+.es-checklist--revised .es-checklist__name {
+    flex: 1;
+    min-width: 0;
+}
+
+.es-checklist--revised .es-checklist__count {
+    white-space: nowrap;
+}
+
+/* ---- pin 2: rounded progress segments ---- */
+.es-checklist--revised .es-progress__segment {
+    border-radius: 999px;
+}
+
+/* ---- pins 3 and 10: one column per field, rows at least 44px ---- */
+.es-checklist--revised .es-checklist__item {
+    min-height: calc(28px + var(--spacing) * 4);
+}
+
+.es-checklist--revised .es-checklist__marker {
+    grid-area: marker;
+}
+
+.es-checklist--revised .es-checklist__text {
+    grid-area: text;
+}
+
+.es-checklist--revised .es-checklist__owner {
+    grid-area: owner;
+    justify-content: center;
+}
+
+.es-checklist--revised .es-checklist__due {
+    grid-area: due;
+}
+
+.es-checklist--revised .es-checklist__actions {
+    grid-area: actions;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+@container (min-width: 560.01px) {
+    .es-checklist--revised .es-checklist__item {
+        grid-template-columns:
+            auto minmax(0, 1fr) 28px calc(var(--spacing) * 24)
+            calc(108px + var(--spacing));
+        grid-template-areas: "marker text owner due actions";
+    }
+
+    .es-checklist--revised[data-row-click] .es-checklist__item {
+        grid-template-columns:
+            auto minmax(0, 1fr) 28px calc(var(--spacing) * 24)
+            calc(28px + 16px + var(--spacing));
+    }
+}
+
+/* ---- pin 11: owner and date sit above the button, two lines per item ---- */
+@container (max-width: 560px) {
+    .es-checklist--revised .es-checklist__items {
+        gap: calc(var(--spacing) * 2);
+    }
+
+    .es-checklist--revised .es-checklist__item {
+        grid-template-columns: auto minmax(0, 1fr) auto auto;
+        grid-template-areas:
+            "marker text owner due"
+            ". text actions actions";
+        align-items: start;
+        row-gap: var(--spacing);
+    }
+
+    .es-checklist--revised .es-checklist__marker,
+    .es-checklist--revised .es-checklist__owner,
+    .es-checklist--revised .es-checklist__due {
+        align-self: center;
+    }
+
+    .es-checklist--revised .es-checklist__owner,
+    .es-checklist--revised .es-checklist__due,
+    .es-checklist--revised .es-checklist__actions {
+        justify-self: end;
+    }
+
+    .es-checklist--revised .es-checklist__text {
+        align-self: start;
+    }
+
+    /* chevron rows keep one line: no buttons to stack */
+    .es-checklist--revised[data-row-click] .es-checklist__items {
+        gap: calc(var(--spacing) * 0.5);
+    }
+
+    .es-checklist--revised[data-row-click] .es-checklist__item {
+        grid-template-columns: auto minmax(0, 1fr) 28px 76px 48px;
+        grid-template-areas: "marker text owner due actions";
+        align-items: center;
+        row-gap: 0;
+        column-gap: calc(var(--spacing) * 2);
+    }
+
+    .es-checklist--revised[data-row-click] .es-checklist__text,
+    .es-checklist--revised[data-row-click] .es-checklist__marker {
+        align-self: center;
+    }
+
+    .es-checklist--revised[data-row-click] .es-checklist__owner,
+    .es-checklist--revised[data-row-click] .es-checklist__due,
+    .es-checklist--revised[data-row-click] .es-checklist__actions {
+        justify-self: stretch;
+    }
+
+    .es-checklist--revised[data-row-click] .es-checklist__actions {
+        justify-content: flex-end;
+    }
+
+    .es-checklist--revised[data-row-click] :is(.es-checklist__label, .es-checklist__meta) {
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+}
+
+/* ---- pin 4: owner and date are ghost buttons, dark even on locked rows ---- */
+.es-checklist--revised .es-checklist__control {
+    color: var(--ink-gray-7);
+    transition: background-color 120ms;
+}
+
+.es-checklist--revised .es-checklist__owner .icon,
+.es-checklist--revised .es-checklist__owner .es-avatar {
+    margin: 0;
+}
+
+.es-checklist--revised .es-checklist__due .es-checklist__control {
+    margin-inline: calc(var(--spacing) * -2);
+    font-size: var(--text-p-sm);
+}
+
+.es-checklist--revised .es-checklist__due .es-checklist__control[data-empty] {
+    color: var(--ink-gray-4);
+}
+
+.es-checklist--revised .es-checklist__item[data-overdue] .es-checklist__due .es-checklist__control {
+    color: var(--ink-red-7);
+}
+
+/* ghost hover: one step lighter on an outline card, one step darker inside a hovered row */
+.es-checklist--revised[data-outline] .es-button[data-variant="ghost"]:hover {
+    background: var(--surface-gray-2);
+}
+
+.es-checklist--revised .es-checklist__item[data-click]:hover .es-button[data-variant="ghost"]:hover,
+.es-checklist--revised[data-outline] .es-checklist__item[data-click]:hover .es-button[data-variant="ghost"]:hover {
+    background: var(--surface-gray-3);
+}
+
+/* ---- pin 6: the lock explains itself ---- */
+.es-checklist--revised .es-checklist__marker[tabindex]:focus-visible {
+    outline: var(--focus-outline-default);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* ---- pin 10: a hover only where the row does something ---- */
+.es-checklist--revised .es-checklist__item:hover {
+    background-color: transparent;
+}
+
+.es-checklist--revised .es-checklist__item[data-click] {
+    cursor: pointer;
+}
+
+.es-checklist--revised .es-checklist__item[data-click]:hover {
+    background-color: var(--surface-gray-2);
+}
+
+.es-checklist--revised .es-checklist__item:focus-visible {
+    outline: var(--focus-outline-default);
+}
+
+.es-checklist--revised .es-checklist__go {
+    display: flex;
+    width: 16px;
+    height: 16px;
+    color: var(--ink-gray-5);
+    transition: color 120ms;
+}
+
+.es-checklist--revised .es-checklist__go .icon {
+    margin: 0;
+}
+
+.es-checklist--revised .es-checklist__item[data-click]:is(:hover, :focus-visible) .es-checklist__go {
+    color: var(--ink-gray-8);
+}
+
+.es-checklist--revised .es-checklist__item:not([data-click]) .es-checklist__go {
+    color: var(--ink-gray-3);
+}
+
+/* ---- pin 5: one layer of padding, from the popover ---- */
+.es-checklist--revised .es-checklist__field .frappe-control,
+.es-checklist--revised .es-checklist__field .form-group {
+    margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .es-checklist--revised .es-checklist__control,
+    .es-checklist--revised .es-checklist__go {
+        transition: none;
+    }
+}
